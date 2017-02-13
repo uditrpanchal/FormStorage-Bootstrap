@@ -1,0 +1,269 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/main.css">
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<script src="js/jquery-1.12.4.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+		<script src="js/plugins.js"></script>
+		<!--<script src="js/vendor/jquery-1.11.2.min.js"></script>-->
+		<script>
+			$(document).ready(function(){
+				
+				$("#date").datepicker();
+				
+				if(Modernizr.input.required)
+				{
+					$("#errorName").html("Required attribute supported");
+					$("#errorName").style.color="Chartreuse";
+				}
+				else
+				{
+					$("#errorName").html("Required attribute NOT supported");
+					$("#errorName").style.color="Tomato";
+				}
+				
+				if(Modernizr.inputtypes.date)
+				{
+					$("#errorDate").html("Date type supported");
+					$("#errorDate").style.color="Chartreuse";
+				}
+				else
+				{
+					$("#errorDate").html("Date type NOT supported");
+					$("#errorDate").style.color="Tomato";
+				}
+		
+				if(Modernizr.inputtypes.email)
+				{
+					$("#errorEmail").html("Email type supported");
+					$("#errorEmail").style.color="Chartreuse";
+				}
+				else
+				{
+					$("#errorEmail").html("Email type NOT supported");
+					$("#errorEmail").style.color="Tomato";
+				}
+				
+				if(Modernizr.inputtypes.number)
+				{
+					$("#errorAge").html("Number type supported");
+					$("#errorAge").style.color="Chartreuse";
+				}
+				else
+				{
+					$("#errorAge").html("Number type NOT supported");
+					$("#errorAge").style.color="Tomato";
+				}
+		
+				
+		
+				if(Modernizr.input.pattern)
+				{
+					$("#errorPostal").html("Pattern attribute supported");
+					$("#errorPostal").style.color="Chartreuse";
+				}
+				else
+				{
+					$("#errorPostal").html("Pattern attribute NOT supported");
+					$("#errorPostal").style.color="Tomato";
+				}
+		
+				
+		});
+
+				
+				
+				
+			
+			function saveIntoLocal()
+			{
+				localStorage.clear();
+				var form = $("#inputform").serializeObject();
+				localStorage.setItem('form',JSON.stringify(form));
+			}
+	
+			function clearLocalStorage(){
+				localStorage.clear();
+				document.getElementById("inputform").reset();
+				location.reload();
+			}
+	
+			function loadFormData(){
+				$("#inputform").populate(JSON.parse(localStorage['form']));
+			}
+		</script>
+    </head>
+    <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Comp10043: Lab4: Forms and Local storage</a>
+        </div>
+		
+        <div id="navbar" class="navbar-collapse collapse">
+          
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+		<p class="checkJS">Please turn on JavaScript</p>
+		<span class="onStatus">Network Status:</span>
+			<span id="onlineStatus"></span>
+			<script>
+				if(navigator.onLine)
+				{
+					document.getElementById("onlineStatus").innerHTML = "online";
+					document.getElementById("onlineStatus").style.color="Chartreuse";
+				}
+				else
+				{
+					document.getElementById("onlineStatus").innerHTML = "offline";
+					document.getElementById("onlineStatus").style.color="Tomato";
+				}
+				</script>
+	  
+			<span ="localStorageName">Local Storage:</span>
+			<span id="localStorage"></span>
+			<script>
+				if(Modernizr.localstorage)
+				{
+					document.getElementById("localStorage").innerHTML = "Supported";
+					document.getElementById("localStorage").style.color="Chartreuse";
+				}
+				else
+				{
+					document.getElementById("localStorage").innerHTML = "Not Supported"
+					document.getElementById("localStorage").style.color="Tomato";
+				}
+	  </script>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="firstBar">
+			<button class="button1" onclick="saveIntoLocal();">Save From Values to Local Storage</button>
+			<button class="button1" onclick="clearLocalStorage();">Clear Local Storage and Form</button>
+			<button class="button1" onclick="loadFormData();">Load Form Values from Local Storage</button>		
+		</div>
+		
+		<form action="formsStorage.php" method="POST" class="register"  id="inputform">
+		<h2>Personal Interest Form</h2>
+		<table>
+			<tr>
+				<td class="col1">Name:</td>
+				<td class="col2"><input type="text" name="name" id="name" required="required" placeholder="First and Last Name" /></td>
+				<td class="col3" id="errorName"></td>
+			<tr>
+			
+			<tr>
+				<td class="col1">Date of birth:</td>
+				<td class="col2"><input type="text" name="dob" id="date" maxlength="10" required="required" placeholder="Date of Birth(mm/dd/yyyy)" /></td>
+				<td class="col3" id="errorDate"></td>
+			<tr>
+			<tr>
+				<td class="col1">Email:</td>
+				<td class="col2"><input type="email" required="required" name="email" id="email" placeholder="E-mail" /></td>
+				<td class="col3" id="errorEmail"></td>
+			<tr>
+			<tr>
+				<td class="col1">Age:</td>
+				<td class="col2"><input type="number" name="age" id="age" min="18" max="90" required="required"  placeholder="Your age(18-90)" /></td>
+				<td class="col3"id="errorAge"></td>
+			<tr>
+			<tr>
+				<td class="col1">Cdn Postal Code:</td>
+				<td class="col2"><input type="text" required="required"
+					name="postalCode" pattern="[a-zA-Z][0-9][a-zA-Z]\s{1}[0-9][a-zA-Z][0-9]" id="postalCode" placeholder="Cdn Postal Code" /></td>
+				<td class="col3" id="errorPostal"></td>
+			<tr>
+			<tr>
+				<td class="col1">Interests:</td>
+				<td class="col2"><input type="checkbox"  name="Music"    value="music" ><span>&nbsp;Music</span>
+							     <input type="checkbox"  name="Software" value="software"><span>Software</span>
+							     <input type="checkbox"	 name="Hardware" value="hardware"><span>Hardware</span></td>
+				<td class="col3"></td>
+			<tr>
+			<tr>
+				<td class="col1">Gender:</td>
+				<td class="col2"><input type="radio" name="gender" value="male" required="required"><span>Male</span>
+							     <input type="radio" name="gender" value="female" required="required"><span>Female</span></td>
+			<tr>
+			
+			<tr>
+				<td class="col1">Province:</td>
+				<td class="col2"><select multiple="multiple" required="required">
+					<option disabled="disabled">----Select A Province----</option>
+					<option value="AB">Alberta</option>
+					<option value="BC">British Columbia</option>
+					<option value="MB">Manitoba</option>
+					<option value="NB">New Brunswick</option>
+					<option value="NL">Newfoundland and Labrador</option>
+					<option value="NS">Nova Scotia</option>
+					<option value="ON">Ontario</option>
+					<option value="PEI">Prince Edward Island</option>
+					<option value="QC">Quebec</option>
+					<option value="SK">Saskatchewan</option>
+					<option value="NT">Northwest Territories</option>
+					<option value="NU">Nunavut</option>
+					<option value="YT">Yukon</option>
+				</select></td>
+				
+			<tr>
+			<tr>
+				<td class="col1"></td>
+				<td class="col2"><button class="button" onclick="checkFormField();">Submit To
+				Server</button>
+			&nbsp;
+			<button class="button" onclick="javascript:location.reload();">Reload
+				Page</button>
+			<a href="formsStorage.php?fillData=1"><img src="img/tick.png"></img></a>	</td>
+			</tr>
+			
+		</table>
+		
+
+
+		<div>
+			
+		</div>
+	</form>
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2015</p>
+      </footer>
+    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+    </body>
+</html>
